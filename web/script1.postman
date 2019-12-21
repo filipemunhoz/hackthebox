@@ -1,0 +1,55 @@
+//Hackthebox - WEB - Emdee five for life [by L4mpje] 
+
+//Post as fast as you can
+
+const $ = cheerio.load(responseBody);
+
+var original = $('h3').text();
+
+var encrypted = CryptoJS.MD5(original).toString();
+
+var inputHash = $('input[name=hash]').val(encrypted);
+
+
+
+var newHtml = $.html();
+
+
+
+const postRequest = {
+
+    url: 'http://docker.hackthebox.eu:32194', 
+
+    method: 'POST',
+
+    body: {
+
+        mode: 'formdata',
+
+          formdata: [
+
+            {key: "hash", value: inputHash.val(), disabled: false}
+
+        ]
+
+    }
+
+};
+
+
+
+try {
+
+    pm.sendRequest(postRequest, function (err, res) {
+
+        console.log("Response" + res.stream.toString());
+
+    });
+
+}
+
+catch (e) { 
+
+    console.log("error->" + e);
+
+}

